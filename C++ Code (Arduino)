@@ -1,19 +1,39 @@
-//This Code is written for the Change collections system. 
+//Version 1.0.0 
+//Code developement is currently in Progress 
+//This Code is written for a Change collections systemm (CCS). 
+//CCS is an IoT module built to record and keep track of donations from retail stores.
 // In here, the Arduino during prototpying serves at the MCU. Hence , the liquid crystal display , thermal printer ,gsm module and 4x3 Matric Keypad interfaces with the arduino
 
-void setup(){
- lcd.init(); // display initialization
- lcd.clear();
- lcd.backlight(); // activate the backlight
- lcd.setCursor(0, 0); // stand in the front line
+#include "Adafruit_Thermal.h" // Printer Library
+#include "SoftwareSerial.h"
+#define TX_PIN 2 //6 // Arduino transmit  YELLOW WIRE  labeled RX on printer
+#define RX_PIN 3 //5 // Arduino receive   GREEN WIRE   labeled TX on printer
+SoftwareSerial mySerial(RX_PIN, TX_PIN); // Declare SoftwareSerial obj first
+Adafruit_Thermal printer(&mySerial);     // Pass addr to printer constructor
+void setup() {
+  // NOTE: SOME PRINTERS NEED 9600 BAUD instead of 19200, check test page.
+  mySerial.begin(9600);  // Initialize SoftwareSerial
+  printer.begin();        //Initializes Printer
+  print_report();        // function call
 }
-
-void loop(){
-char key = keypad.getKey();
-if(key) //press a key on the 4x4 matrix keypad
-{
-lcd.print(key);  // Display the entered character on the LCD display
-delay(100);
+void loop() {
 }
+// This section of the code is a fucntion written to print an intended message
+void print_report() {
+  printer.setSize('L');
+  printer.justify('C');
+  printer.println(F("CCS Donation Receipt"));
+  printer.println(F("Covenant University"));
+  printer.setSize('M');
+  printer.println(F("2022"));
+  printer.justify('L');
+  printer.println(F("Date:"));
+  printer.println(F("Time"));
+  printer.println(F("Amount"));
+  printer.feed(3);
+  printer.sleep();      // put's printer to sleep
+  delay(3000L);         // print will sleep for 3 seconds
+  printer.wake();       // Printer has to wake first before it can print again.
+  printer.setDefault(); // Printer defaults restred
 }
 //end of code.
