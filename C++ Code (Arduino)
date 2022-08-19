@@ -1,7 +1,19 @@
 //This Code is written for the Change collections system. 
 // In here, the Arduino during prototpying serves at the MCU. Hence , the liquid crystal display , thermal printer ,gsm module and 4x3 Matric Keypad interfaces with the arduino
+
 void setup(){
+ lcd.init(); // display initialization
+ lcd.clear();
+ lcd.backlight(); // activate the backlight
+ lcd.setCursor(0, 0); // stand in the front line
 }
 
 void loop(){
+char key = keypad.getKey();
+if(key) //press a key on the 4x4 matrix keypad
+{
+lcd.print(key);  // Display the entered character on the LCD display
+delay(100);
 }
+}
+//end of code.
