@@ -1,0 +1,7 @@
+//This Code is written for the Change collections system. 
+// In here, the Arduino during prototpying serves at the MCU. Hence , the liquid crystal display , thermal printer ,gsm module and 4x3 Matric Keypad interfaces with the arduino
+void setup(){
+}
+
+void loop(){
+}
